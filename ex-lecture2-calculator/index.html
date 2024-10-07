@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    body {
+      font-family: "Roboto", sans-serif;
+    }
+  </style>
+  <body class="bg-light">
+    <div
+      class="container vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div
+        class="row flex-column w-100 justify-content-center align-items-center"
+      >
+        <p
+          class="fs-5 text-secondary text-center mb-3 bg-white rounded col-lg-6 col shadow-sm p-2"
+        >
+          Memory:
+          <span class="text-warning h4" id="memoryPlaceholder">0</span>
+        </p>
+        <div id="calc" class="col-lg-6 col shadow-sm rounded bg-white p-3">
+          <div class="row mb-3 text-light p-3">
+            <div
+              class="col shadow-sm p-2 rounded d-flex justify-content-end bg-secondary"
+            >
+              <div id="calcInput" class="fs-3">0</div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-3">
+              <button
+                class="btn memory btn-warning w-100"
+                value="mc"
+                data-bs-toggle="tooltip"
+                title="Clear Memory (MC)"
+              >
+                MC
+              </button>
+            </div>
+            <div class="col-3">
+              <button class="btn memory btn-warning w-100" value="mr" data-bs-toggle="tooltip"
+              title="Recall Memory (MR)">
+                MR
+              </button>
+            </div>
+            <div class="col-3">
+              <button class="btn memory btn-warning w-100" value="m-plus" data-bs-toggle="tooltip"
+              title="Memory plus (M+)">
+                M+
+              </button>
+            </div>
+            <div class="col-3">
+              <button class="btn memory btn-warning w-100" value="m-minus" data-bs-toggle="tooltip"
+              title="Memory minus (M-)">
+                M-
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-3 d-flex justify-content-end">
+            <div class="col-3">
+              <button class="btn clear btn-danger w-100" id="clear" value="C" data-bs-toggle="tooltip"
+              title="Clear (C) - Esc">
+                C
+              </button>
+            </div>
+            <div class="col-3">
+              <button class="btn operator btn-primary w-100" value="/">
+                /
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="7">7</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="8">8</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="9">9</button>
+            </div>
+            <div class="col-3">
+              <button class="btn operator btn-primary w-100" value="*">
+                &#215;
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="4">4</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="5">5</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="6">6</button>
+            </div>
+            <div class="col-3">
+              <button class="btn operator btn-primary w-100" value="-">
+                -
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="1">1</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="2">2</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value="3">3</button>
+            </div>
+            <div class="col-3">
+              <button class="btn operator btn-primary w-100" value="+">
+                +
+              </button>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-3">
+              <button class="btn num zero btn-dark w-100" value="0">0</button>
+            </div>
+            <div class="col-3">
+              <button class="btn num btn-dark w-100" value=".">.</button>
+            </div>
+            <div class="col-6">
+              <button
+                class="btn equals btn-success w-100"
+                id="equals"
+                value="="
+                data-bs-toggle="tooltip"
+                title="Calculate Result (=) - Enter"
+              >
+                =
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const doWork = () => {
+        const calcInput = document.getElementById("calcInput");
+        function showInput(input) {
+          calcInput.textContent = input;
+        }
+        let currentInput = "";
+        let previousInput = "";
+        let operation = null;
+        const clearCalc = () => {
+          calcInput.textContent = "0";
+          currentInput = "";
+          previousInput = "";
+          operation = null;
+        };
+
+        const clearBtn = document.getElementById("clear");
+        clearBtn.addEventListener("click", clearCalc);
+
+        const buttons = document.getElementsByClassName("btn");
+        const buttonsArray = Array.from(buttons);
+
+        function calculation() {
+          if (previousInput && currentInput && operation) {
+            const previousNum = parseFloat(previousInput);
+            const currentNum = parseFloat(currentInput);
+            let result;
+            switch (operation) {
+              case "+":
+                result = previousNum + currentNum;
+                break;
+              case "-":
+                result = previousNum - currentNum;
+                break;
+              case "*":
+                result = previousNum * currentNum;
+                break;
+              case "/":
+                result = previousNum / currentNum;
+                break;
+              default:
+                return currentNum;
+            }
+            result = parseFloat(result.toFixed(10));
+            return result;
+          }
+          return parseFloat(currentInput);
+        }
+
+        let resultShown = false;
+        let memory = 0;
+        const memoryPlaceholder = document.getElementById("memoryPlaceholder");
+        const buttonClicked = (button) => {
+          const value = button.value;
+
+          if (value === "=") {
+            if (currentInput === "0" && operation === "/") {
+              showInput("Error: Division by 0");
+              currentInput = "";
+              previousInput = "";
+              operation = null;
+              resultShown = false;
+              return;
+            }
+            if (!currentInput && previousInput) {
+              currentInput = previousInput;
+            }
+            result = calculation();
+            showInput(result);
+            currentInput = result.toString();
+            previousInput = "";
+            operation = null;
+            resultShown = true;
+          } else if (button.classList.contains("num")) {
+            if (resultShown) {
+              currentInput = value;
+              resultShown = false;
+            } else {
+              if (value === "0" && currentInput === "0") return;
+              if (value === "." && currentInput.includes(".")) return;
+              if (currentInput === "0" && value !== ".") {
+                currentInput = value;
+              } else {
+                currentInput += value;
+              }
+            }
+            showInput(currentInput);
+          } else if (button.classList.contains("operator")) {
+            if (currentInput === "" && previousInput === "") return;
+            if (!currentInput && previousInput) {
+              currentInput = previousInput;
+            }
+            operation = value;
+            previousInput = currentInput;
+            currentInput = "";
+            resultShown = false;
+          } else if (button.classList.contains("memory")) {
+            switch (value) {
+              case "mc":
+                memory = 0;
+                memoryPlaceholder.textContent = "0";
+                break;
+              case "mr":
+                if (memory) {
+                  currentInput = memory.toString();
+                  showInput(currentInput);
+                }
+                break;
+              case "m-plus":
+                memory += parseFloat(currentInput || "0");
+                memoryPlaceholder.textContent = memory.toString();
+                currentInput = "";
+                showInput("0");
+                break;
+              case "m-minus":
+                memory -= parseFloat(currentInput || "0");
+                memoryPlaceholder.textContent = memory.toString();
+                currentInput = "";
+                showInput("0");
+                break;
+            }
+          }
+        };
+        buttonsArray.forEach((btn) => {
+          btn.addEventListener("click", () => buttonClicked(btn));
+        });
+
+        document.addEventListener("keydown", (keyEvent) => {
+          const key = keyEvent.key;
+
+          if ((key >= "0" && key <= "9") || key === ".") {
+            const button = buttonsArray.find((btn) => btn.value === key);
+            if (button) button.click();
+          }
+          if (["+", "-", "*", "/"].includes(key)) {
+            const button = buttonsArray.find((btn) => btn.value === key);
+            if (button) button.click();
+          }
+          if (key === "Enter" || key === "=") {
+            const equalsButton = buttonsArray.find((btn) => btn.value === "=");
+            if (equalsButton) equalsButton.click();
+            keyEvent.preventDefault();
+          }
+          if (key === "Escape") {
+            const clearButton = buttonsArray.find((btn) => btn.value === "C");
+            if (clearButton) clearButton.click();
+          }
+        });
+        showInput("0");
+
+        const tooltipTriggerList = [].slice.call(
+          document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+      };
+
+      document.addEventListener("DOMContentLoaded", doWork);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
