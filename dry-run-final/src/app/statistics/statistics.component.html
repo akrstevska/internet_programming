@@ -1,0 +1,78 @@
+<div class="row d-flex justify-content-center w-100 text-light mt-5">
+  <div class="col-11">
+    <div class="col-12 mb-4 p-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <mat-card class="p-4 w-100">
+          <mat-card-content>
+            <h4 class="fw-light mb-3">Statistics</h4>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <div class="stat-card bg-blue  rounded p-3 text-center">
+                  <h5 class="fw-light">Total number of authors</h5>
+                  <h3 class="stat-value">{{ totalAuthors }}</h3>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="stat-card bg-blue  rounded p-3 text-center">
+                  <h5 class="fw-light">Total number of books</h5>
+                  <h3 class="stat-value">{{ totalBooks }}</h3>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="stat-card bg-blue  rounded p-3 text-center">
+                  <h5 class="fw-light">Average books per author</h5>
+                  <h3 class="stat-value">{{ averageBooksPerAuthor | number:'1.1-1' }}</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <div class="stat-card bg-blue rounded p-3 text-center">
+                  <h5 class="fw-light">Total number of nationalities</h5>
+                  <h3 class="stat-value">{{ totalNationalities }}</h3>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="stat-card bg-dark text-white rounded p-3 text-center">
+                  <h5 class="text-blue mb-2 fw-light">Total books by nationality</h5>
+                  <ul class="list-unstyled">
+                    <ng-container *ngFor="let nationality of totalBooksByNationality | keyvalue">
+                      <li *ngIf="nationality.value > 0" class="rounded p-2 bg-soft-accent mb-1">
+                        {{ nationality.key }}: {{ nationality.value }}
+                      </li>
+                    </ng-container>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col">
+                <div class="stat-card bg-accent rounded p-3 text-center">
+                  <h5 class="mb-2 fw-light">Total books by type</h5>
+                  <ul class="list-unstyled">
+                    <li *ngFor="let bookType of totalBooksByType | keyvalue" class="rounded p-2 bg-soft-dark mb-1">
+                      {{ bookType.key }}: {{ bookType.value }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="stat-card bg-blue rounded p-3 text-center">
+                  <h5 class="fw-light">Total book types</h5>
+                  <h3 class="stat-value">{{ totalBookTypes }}</h3>
+                </div>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
